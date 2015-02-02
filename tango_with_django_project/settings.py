@@ -36,6 +36,8 @@ LOGIN_URL = '/rango/login/'
 
 # Application definition
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',

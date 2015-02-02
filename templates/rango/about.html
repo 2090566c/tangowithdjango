@@ -6,8 +6,11 @@
 
 
     {% block body_block %}
+
         <h1>This is the about page...</h1>
         <strong>{{ boldmessage }}</strong><br />
         <a href="/rango/">Rango</a><br />
         <img src="{% static "images/me.jpg" %}" alt="Picture of Me" />
+
+        <p> Number of visits: {{ visits }}</p>
     {% endblock %}
