@@ -31,6 +31,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/rango/login/'
+
 
 # Application definition
 
@@ -68,6 +70,11 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+PASSWORD_HASHERS = (
+'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
