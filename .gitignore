@@ -55,3 +55,8 @@ target/
 
 # DB
 *.sqlite3
+
+#others
+/rango/keys.py
+.idea/
+gitignore
