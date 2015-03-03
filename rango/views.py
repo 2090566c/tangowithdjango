@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from models import Category
 from models import Page
+from models import UserProfile
 from forms import CategoryForm
 from forms import PageForm
 from forms import UserForm, UserProfileForm
@@ -11,6 +12,7 @@ from django.contrib.auth import logout
 from datetime import datetime
 from rango.bing_search import run_query
 from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 def category(request, category_name_slug):
     context_dict = {}
@@ -226,3 +228,39 @@ def track_url(request):
                 pass
 
     return redirect(url)
+
+def register_profile(request):
+    if request.method == 'POST':
+        try:
+            profile = UserProfile.objects.get(user=request.user)
+            form = UserProfileForm(request.POST, instance=profile)
+        except:
+            form = UserProfileForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated():
+                profile = form.save(commit=False)
+                user = User.objects.get(id=request.user.id)
+                profile.user = user
+                try:
+                    profile.picture = request.FILES['picture']
+                except:
+                    pass
+                profile.save()
+        else:
+            print form.errors
+        return index(request)
+    else:
+        form = UserProfileForm(request.GET)
+    return render(request, 'rango/profile_registration.html', {'profile_form': form})
+
+@login_required
+def profile(request):
+    u = User.objects.get(username=request.user.username)
+    context_dict = {}
+    try:
+        up = UserProfile.objects.get(user=u)
+    except:
+        up = None
+    context_dict['user'] = u
+    context_dict['userprofile'] = up
+    return render(request, 'rango/profile.html', context_dict)
